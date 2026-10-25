@@ -154,7 +154,7 @@ export default function SchemaDocsTab() {
     },
   ];
 
-  const vivaQuestions = [
+  const architectureFaqs = [
     {
       q: '1. Why did you choose a Polyglot Architecture (SQL + NoSQL + Vector)?',
       a: 'Structured relational data (users, hosts, events, incidents) requires strong referential integrity, ACID transactions, and complex analytical JOINs (handled by PostgreSQL). Conversely, high-velocity network packet hex dumps, arbitrary HTTP headers, and system-call traces vary widely in structure, making MongoDB (NoSQL) optimal for polymorphic storage without schema migrations. Lastly, pgvector allows semantic cosine similarity retrieval (<=>) to match natural language incident descriptions against historical resolution playbooks.',
@@ -193,7 +193,7 @@ export default function SchemaDocsTab() {
                 8 Normalized Relational Tables
               </span>
               <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-950 text-cyan-400 border border-cyan-800">
-                Viva Voce Technical Guide
+                Relational Data Model & Standards
               </span>
             </div>
             <h2 className="text-xl font-bold text-white tracking-tight">
@@ -201,7 +201,7 @@ export default function SchemaDocsTab() {
             </h2>
             <p className="text-xs text-slate-400 mt-1 max-w-3xl">
               Complete architectural documentation identifying entities, attributes, primary keys, foreign keys, 
-              relationships, database constraints, and oral defense answers for PES University Level 3 evaluation.
+              relationships, database constraints, indexing strategies, and enterprise polyglot persistence design patterns.
             </p>
           </div>
 
@@ -326,21 +326,21 @@ export default function SchemaDocsTab() {
         </div>
       </div>
 
-      {/* Viva Voce Defense Preparation Guide */}
+      {/* Technical Architecture Reference */}
       <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <HelpCircle className="h-5 w-5 text-amber-400" />
-            <h3 className="text-base font-bold text-white">Viva Voce Examiner Q&A Guide</h3>
+            <h3 className="text-base font-bold text-white">DBMS Architecture Standards & Engineering Notes</h3>
           </div>
-          <span className="text-xs text-slate-400 font-mono">Evaluator Ready</span>
+          <span className="text-xs text-slate-400 font-mono">Architecture Standards</span>
         </div>
         <p className="text-xs text-slate-400">
-          Direct, structured responses aligned with the Level 3 DBMS evaluation criteria:
+          Core architectural justifications and technical design decisions:
         </p>
 
         <div className="space-y-4">
-          {vivaQuestions.map((item, qIdx) => (
+          {architectureFaqs.map((item, qIdx) => (
             <div key={qIdx} className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2 text-xs">
               <span className="font-bold text-white block">{item.q}</span>
               <p className="text-slate-300 leading-relaxed text-[11px]">{item.a}</p>

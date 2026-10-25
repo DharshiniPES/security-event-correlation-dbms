@@ -43,7 +43,7 @@ export default function ReportsTab({
           <div>
             <div className="flex items-center space-x-2 mb-2">
               <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-950 text-emerald-400 border border-emerald-800">
-                Evaluation Checkpoint #3
+                Departmental Aggregations & Metrics
               </span>
               <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-950 text-blue-300 border border-blue-800">
                 Complex SQL Aggregations & Views
@@ -79,7 +79,7 @@ export default function ReportsTab({
           }`}
         >
           <Building2 className="h-4 w-4" />
-          <span>Department Posture & Budget (Primary Checkpoint)</span>
+          <span>Department Posture & Budget Allocation</span>
         </button>
 
         <button
@@ -142,7 +142,7 @@ export default function ReportsTab({
                   <span>Report 1: Department Security Posture & Budget Allocation</span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Backed by PostgreSQL View <code className="text-cyan-400">vw_department_security_posture</code>. Directly mirrors the syllabus benchmark ("Average salary of every department").
+                  Backed by PostgreSQL View <code className="text-cyan-400">vw_department_security_posture</code> with departmental risk aggregations.
                 </p>
               </div>
 

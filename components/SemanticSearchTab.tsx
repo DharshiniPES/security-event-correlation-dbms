@@ -55,7 +55,7 @@ export default function SemanticSearchTab() {
   return (
     <div className="space-y-6 animate-fadeIn">
       
-      {/* Top Banner: Vector Database Theory & Syllabus Rubric Alignment */}
+      {/* Top Banner: Vector Database Architecture */}
       <div className="bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
@@ -214,11 +214,11 @@ export default function SemanticSearchTab() {
         )}
       </div>
 
-      {/* Viva Voce Technical Explanation Card (Directly addresses Syllabus Section 8) */}
+      {/* Technical Architecture: Vector Retrieval Reference */}
       <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 text-xs text-slate-400 space-y-3">
         <div className="flex items-center space-x-2 text-cyan-400 font-bold">
           <Info className="h-4 w-4" />
-          <span>Viva Voce Guide: Vector Database & Semantic Search Concepts</span>
+          <span>Technical Architecture: pgvector Embeddings & Vector Similarity Retrieval</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[11px] pt-1">
           <div>

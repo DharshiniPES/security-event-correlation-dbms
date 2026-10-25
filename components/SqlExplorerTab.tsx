@@ -152,7 +152,7 @@ ORDER BY tablename, indexname;`,
           <div>
             <div className="flex items-center space-x-2 mb-2">
               <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-950 text-cyan-400 border border-cyan-800">
-                Viva Voce Live Inspector
+                Engine Query Plan Inspector
               </span>
               <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-950 text-emerald-400 border border-emerald-800">
                 PostgreSQL 17 Engine
@@ -162,7 +162,7 @@ ORDER BY tablename, indexname;`,
               Interactive SQL Query & Relational Algebra Console
             </h2>
             <p className="text-xs text-slate-400 mt-1 max-w-3xl">
-              Execute syllabus-mandated queries live against the PostgreSQL database or input custom SQL queries. 
+              Execute analytical queries live against the PostgreSQL database or input custom SQL queries. 
               Supports query plan inspection (<code className="text-cyan-400">EXPLAIN ANALYZE</code>) for index scan verification.
             </p>
           </div>
@@ -177,7 +177,7 @@ ORDER BY tablename, indexname;`,
       {/* Preset Query Chips */}
       <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-2">
         <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">
-          Select Syllabus Demonstration Query:
+          Pre-Configured Analytical Queries:
         </span>
         <div className="flex flex-wrap gap-2 text-xs">
           {presets.map((p, idx) => (

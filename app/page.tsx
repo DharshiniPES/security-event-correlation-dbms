@@ -90,9 +90,9 @@ export default function Home() {
     { id: 'events', label: 'Security Events (SQL + NoSQL)', icon: ShieldAlert },
     { id: 'incidents', label: 'Incidents & Triage (ACID)', icon: Layers },
     { id: 'semantic', label: 'Semantic Vector Search (pgvector)', icon: Sparkles },
-    { id: 'reports', label: 'Analytical Reports (Checkpoint #3)', icon: BarChart3 },
-    { id: 'sql', label: 'Live SQL Query Explorer', icon: Terminal },
-    { id: 'docs', label: 'ER Diagram & Viva Guide', icon: FileText },
+    { id: 'reports', label: 'Analytical Reports & Aggregations', icon: BarChart3 },
+    { id: 'sql', label: 'Live SQL Query Console', icon: Terminal },
+    { id: 'docs', label: 'ER Diagram & Schema Reference', icon: FileText },
   ];
 
   return (

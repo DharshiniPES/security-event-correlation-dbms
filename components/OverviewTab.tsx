@@ -50,7 +50,7 @@ export default function OverviewTab({
           <div>
             <div className="flex items-center space-x-2 mb-2">
               <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-950 text-cyan-400 border border-cyan-800/80">
-                DBMS Evaluation Ready
+                Enterprise SOC Engine
               </span>
               <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-950 text-emerald-400 border border-emerald-800/80">
                 SQL + Vector + NoSQL Polyglot
@@ -296,7 +296,7 @@ export default function OverviewTab({
           </div>
 
           <div className="mt-5 pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
-            <span>Evaluation Team:</span>
+            <span>System Engineers:</span>
             <span className="font-semibold text-slate-300">Dharshini V & Dhruv Rajagopalan</span>
           </div>
         </div>
