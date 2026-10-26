@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { queryPostgres, getMongoDb } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   try {
     // 1. Departmental Security Posture (Parallel to "Average salary of every department")
@@ -24,7 +27,6 @@ export async function GET() {
     `);
 
     // 5. Advanced Subquery Report (JOIN + GROUP BY + HAVING + Correlated Subquery)
-    // "Hosts whose risk score is greater than or equal to their environment average with unresolved critical events"
     const subqueryRes = await queryPostgres(`
       SELECT 
         h.host_id,
@@ -44,8 +46,51 @@ export async function GET() {
       ORDER BY h.risk_score DESC;
     `);
 
-    // 6. NoSQL Aggregation Pipeline (MongoDB)
-    // Aggregates raw packet protocol distribution, payload size, and telemetry sensor counts
+    // 6. Severity Distribution Graph Data (CRITICAL vs HIGH vs MEDIUM vs LOW)
+    const severityRes = await queryPostgres(`
+      SELECT 
+        severity,
+        COUNT(*) AS count,
+        ROUND(COUNT(*) * 100.0 / NULLIF((SELECT COUNT(*) FROM security_events), 0), 1) AS percentage
+      FROM security_events
+      GROUP BY severity
+      ORDER BY 
+        CASE severity 
+          WHEN 'CRITICAL' THEN 1 
+          WHEN 'HIGH' THEN 2 
+          WHEN 'MEDIUM' THEN 3 
+          ELSE 4 
+        END;
+    `);
+
+    // 7. Active Trigger Cut-off & Severed Telemetry Notification Feed
+    const cutoffRes = await queryPostgres(`
+      SELECT 
+        h.host_id,
+        h.hostname,
+        h.ip_address::TEXT AS ip_address,
+        h.environment,
+        h.risk_score,
+        h.is_isolated,
+        h.last_seen,
+        d.dept_name,
+        COUNT(se.event_id) AS total_events,
+        COUNT(CASE WHEN se.severity = 'CRITICAL' THEN 1 END) AS critical_events,
+        COUNT(CASE WHEN se.severity = 'HIGH' THEN 1 END) AS high_events,
+        MAX(se.event_timestamp) AS last_threat_timestamp,
+        CASE 
+          WHEN h.is_isolated = TRUE THEN 'Host network traffic severed: Cumulative risk exceeded threshold (>= 75.00). Database trigger trg_security_event_risk executed quarantine.'
+          ELSE 'Host monitored: Approaching elevated threat threshold.'
+        END AS cutoff_reason
+      FROM hosts h
+      LEFT JOIN departments d ON h.dept_id = d.dept_id
+      LEFT JOIN security_events se ON h.host_id = se.host_id
+      WHERE h.is_isolated = TRUE OR h.risk_score >= 50.00
+      GROUP BY h.host_id, h.hostname, h.ip_address, h.environment, h.risk_score, h.is_isolated, h.last_seen, d.dept_name
+      ORDER BY h.is_isolated DESC, h.risk_score DESC;
+    `);
+
+    // 8. NoSQL Aggregation Pipeline (MongoDB)
     const mongoDb = await getMongoDb();
     const nosqlAgg = await mongoDb.collection('raw_security_telemetry').aggregate([
       {
@@ -75,7 +120,7 @@ export async function GET() {
       reports: {
         departmentPosture: {
           title: 'Department Security Posture & Budget Analysis',
-          description: 'Departmental asset allocation, average and maximum host risk scores, and active incidents (Fulfills DBMS Syllabus Requirement).',
+          description: 'Departmental asset allocation, average and maximum host risk scores, and active incidents.',
           data: deptRes.rows,
         },
         mitreAttackSurface: {
@@ -97,6 +142,16 @@ export async function GET() {
           title: 'Correlated Subquery: Anomalous Hosts Exceeding Environment Risk',
           description: 'Complex SQL using correlated subqueries and HAVING filter to isolate abnormal host risk against departmental baselines.',
           data: subqueryRes.rows,
+        },
+        severityDistribution: {
+          title: 'Risk Severity Distribution (High, Medium, Low & Critical)',
+          description: 'Quantified distribution and percentage ratios across threat severity classifications.',
+          data: severityRes.rows,
+        },
+        triggerCutoffTelemetry: {
+          title: 'Autonomous Trigger Cut-Off & Severed Telemetry Notification Feed',
+          description: 'Real-time telemetry feeds that have been quarantined or cut off by the database trigger engine.',
+          data: cutoffRes.rows,
         },
         noSqlTelemetryMetrics: {
           title: 'MongoDB NoSQL Pipeline Aggregation',

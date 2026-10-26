@@ -48,7 +48,7 @@ export default function Home() {
       if (statusRes) setStatus(statusRes);
       if (eventsRes?.events) setEvents(eventsRes.events);
       if (incidentsRes?.incidents) setIncidents(incidentsRes.incidents);
-      if (reports?.reports || reportsRes?.reports) setReports(reportsRes?.reports || null);
+      if (reportsRes?.reports) setReports(reportsRes.reports);
       if (metaRes) setMeta(metaRes);
     } catch (err) {
       console.error('Error fetching CyberPulse data:', err);
@@ -95,6 +95,10 @@ export default function Home() {
     { id: 'docs', label: 'ER Diagram & Schema Reference', icon: FileText },
   ];
 
+  const cutoffHosts = reports?.triggerCutoffTelemetry?.data?.filter((c: any) => c.is_isolated) || 
+                      meta?.hosts?.filter((h: any) => h.is_isolated) || [];
+  const isolatedHostsCount = cutoffHosts.length;
+
   return (
     <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-black">
       
@@ -132,6 +136,34 @@ export default function Home() {
           </nav>
         </div>
       </div>
+
+      {/* Autonomous Trigger Cut-off Notification Banner */}
+      {isolatedHostsCount > 0 && (
+        <div className="bg-gradient-to-r from-rose-950 via-slate-900 to-rose-950 border-b border-rose-800/80 px-4 sm:px-8 py-3 shadow-xl">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+            <div className="flex items-center space-x-3">
+              <span className="flex h-3 w-3 relative shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-rose-500"></span>
+              </span>
+              <div>
+                <span className="font-extrabold text-rose-300 uppercase tracking-wide mr-2">
+                  🚨 Autonomous DB Trigger Notification:
+                </span>
+                <span className="text-slate-300">
+                  <strong className="text-white font-mono">{isolatedHostsCount} Host Telemetries Severed</strong> by PostgreSQL Trigger (<code className="text-rose-300 bg-rose-950/80 px-1 py-0.5 rounded font-mono">trg_security_event_risk</code>). Network quarantine active for: <span className="font-mono text-rose-200 font-bold">{cutoffHosts.map((h: any) => h.hostname).join(', ')}</span>.
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => setActiveTab('reports')}
+              className="shrink-0 self-start md:self-auto px-3.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-lg shadow-rose-600/30 transition flex items-center space-x-1.5"
+            >
+              <span>View Cut-Off Feeds & Risk Graphs &rarr;</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Body Content Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
