@@ -16,7 +16,8 @@ import {
   Sparkles, 
   BarChart3, 
   Terminal, 
-  FileText 
+  FileText,
+  Workflow 
 } from 'lucide-react';
 
 export default function Home() {
@@ -88,6 +89,7 @@ export default function Home() {
   const tabs = [
     { id: 'overview', label: 'SOC Overview', icon: LayoutDashboard },
     { id: 'events', label: 'Security Events (SQL + NoSQL)', icon: ShieldAlert },
+    { id: 'bridge', label: 'SQL + NoSQL Integration Bridge', icon: Workflow },
     { id: 'incidents', label: 'Incidents & Triage (ACID)', icon: Layers },
     { id: 'semantic', label: 'Semantic Vector Search (pgvector)', icon: Sparkles },
     { id: 'reports', label: 'Analytical Reports & Aggregations', icon: BarChart3 },
@@ -218,7 +220,9 @@ export default function Home() {
 
             {activeTab === 'sql' && <SqlExplorerTab />}
 
-            {activeTab === 'docs' && <SchemaDocsTab />}
+            {activeTab === 'bridge' && <SchemaDocsTab initialSection="bridge" />}
+
+            {activeTab === 'docs' && <SchemaDocsTab initialSection="data" />}
           </div>
         )}
       </main>

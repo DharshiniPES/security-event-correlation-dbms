@@ -24,8 +24,18 @@ import {
   Image as ImageIcon
 } from 'lucide-react';
 
-export default function SchemaDocsTab() {
-  const [activeSection, setActiveSection] = useState<'data' | 'bridge' | 'schema' | 'diagram'>('data');
+interface SchemaDocsTabProps {
+  initialSection?: 'data' | 'bridge' | 'schema' | 'diagram';
+}
+
+export default function SchemaDocsTab({ initialSection = 'data' }: SchemaDocsTabProps) {
+  const [activeSection, setActiveSection] = useState<'data' | 'bridge' | 'schema' | 'diagram'>(initialSection);
+
+  useEffect(() => {
+    if (initialSection) {
+      setActiveSection(initialSection);
+    }
+  }, [initialSection]);
   const [selectedTable, setSelectedTable] = useState<string>('departments');
   const [entitiesData, setEntitiesData] = useState<any>(null);
   const [loadingEntities, setLoadingEntities] = useState<boolean>(true);
